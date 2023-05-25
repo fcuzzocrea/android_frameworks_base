@@ -40,6 +40,8 @@ public final class AttestationHooks {
     private static final String PACKAGE_FINSKY = "com.android.vending";
     private static final String PACKAGE_NEXUSLAUNCHER = "com.google.android.apps.nexuslauncher";
     private static final String PACKAGE_VELVET = "com.google.android.googlequicksearchbox";
+    private static final String PACKAGE_SAMSUNG = "com.samsung";
+    private static final String PACKAGE_SEC = "com.sec";
     private static final String PROCESS_GAPPS = PACKAGE_GMS + ".gapps";
     private static final String PROCESS_GSERVICE = PACKAGE_GMS + ".gservice";
     private static final String PROCESS_LEARNING = PACKAGE_GMS + ".learning";
@@ -163,6 +165,12 @@ public final class AttestationHooks {
             case PACKAGE_VELVET:
                 spoofBuildHusky();
                 return;
+        }
+
+        if (packageName.startsWith(PACKAGE_SAMSUNG) ||
+              packageName.startsWith(PACKAGE_SEC)) {
+            setBuildField("BRAND", "google");
+            setBuildField("MANUFACTURER", "google");
         }
     }
 
