@@ -40,7 +40,13 @@ public final class AttestationHooks {
     private static final String PACKAGE_FINSKY = "com.android.vending";
     private static final String PACKAGE_NEXUSLAUNCHER = "com.google.android.apps.nexuslauncher";
     private static final String PACKAGE_VELVET = "com.google.android.googlequicksearchbox";
-    private static final String PROCESS_UNSTABLE = "com.google.android.gms.unstable";
+    private static final String PROCESS_GAPPS = PACKAGE_GMS + ".gapps";
+    private static final String PROCESS_GSERVICE = PACKAGE_GMS + ".gservice";
+    private static final String PROCESS_LEARNING = PACKAGE_GMS + ".learning";
+    private static final String PROCESS_PERSISTENT = PACKAGE_GMS + ".persistent";
+    private static final String PROCESS_SEARCH = PACKAGE_GMS + ".search";
+    private static final String PROCESS_UNSTABLE = PACKAGE_GMS + ".unstable";
+    private static final String PROCESS_UPDATE = PACKAGE_GMS + ".update";
 
     private static final ComponentName GMS_ADD_ACCOUNT_ACTIVITY =
             ComponentName.unflattenFromString(
@@ -141,6 +147,14 @@ public final class AttestationHooks {
         switch (processName) {
             case PROCESS_UNSTABLE:
                 spoofBuildGms();
+                return;
+            case PROCESS_PERSISTENT:
+            case PROCESS_GAPPS:
+            case PROCESS_GSERVICE:
+            case PROCESS_LEARNING:
+            case PROCESS_SEARCH:
+            case PROCESS_UPDATE:
+                spoofBuildHusky();
                 return;
         }
 
