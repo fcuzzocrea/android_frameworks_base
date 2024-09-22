@@ -38,6 +38,8 @@ public final class AttestationHooks {
 
     private static final String PACKAGE_GMS = "com.google.android.gms";
     private static final String PACKAGE_FINSKY = "com.android.vending";
+    private static final String PACKAGE_NEXUSLAUNCHER = "com.google.android.apps.nexuslauncher";
+    private static final String PACKAGE_VELVET = "com.google.android.googlequicksearchbox";
     private static final String PROCESS_UNSTABLE = "com.google.android.gms.unstable";
 
     private static final ComponentName GMS_ADD_ACCOUNT_ACTIVITY =
@@ -113,6 +115,15 @@ public final class AttestationHooks {
         }
     }
 
+    private static void spoofBuildHusky() {
+        setBuildField("BRAND", "google");
+        setBuildField("MANUFACTURER", "Google");
+        setBuildField("DEVICE", "husky");
+        setBuildField("FINGERPRINT", "google/husky/husky:14/UQ1A.240205.004/11269751:user/release-keys");
+        setBuildField("MODEL", "Pixel 8 Pro");
+        setBuildField("PRODUCT", "husky");
+    }
+
     public static void initApplicationBeforeOnCreate(Context context) {
         final String packageName = context.getPackageName();
         final String processName = Application.getProcessName();
@@ -130,6 +141,13 @@ public final class AttestationHooks {
         switch (processName) {
             case PROCESS_UNSTABLE:
                 spoofBuildGms();
+                return;
+        }
+
+        switch (packageName) {
+            case PACKAGE_NEXUSLAUNCHER:
+            case PACKAGE_VELVET:
+                spoofBuildHusky();
                 return;
         }
     }
